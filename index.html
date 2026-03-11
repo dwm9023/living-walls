@@ -477,21 +477,27 @@ function initMap(){
   map.on('load',function(){
     map.setTerrain({source:'dem',exaggeration:1.5});
 
-    // China border from GeoJSON
-    map.addSource('countries',{type:'geojson',
-      data:'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson'});
-    // Dark mask outside China — lighter so satellite shows through
-    map.addLayer({id:'mask',type:'fill',source:'countries',
-      filter:['!=',['get','ADMIN'],'China'],
-      paint:{'fill-color':'rgba(10,8,5,.55)','fill-opacity':1}});
-    // China border line glow
-    map.addLayer({id:'china-glow',type:'line',source:'countries',
-      filter:['==',['get','ADMIN'],'China'],
-      paint:{'line-color':'rgba(196,98,58,.1)','line-width':8,'line-blur':10}});
-    // China border line
-    map.addLayer({id:'china-line',type:'line',source:'countries',
-      filter:['==',['get','ADMIN'],'China'],
-      paint:{'line-color':'rgba(196,98,58,.3)','line-width':1,'line-opacity':.8}});
+    // China border — simplified inline polygon (no external fetch)
+    var chinaCoords=[[73.6,39.4],[74.9,37.6],[76.0,35.9],[77.8,35.5],[78.9,34.4],[79.6,33.2],[80.5,32.6],[81.9,31.6],[83.2,31.1],[84.8,30.9],[86.9,30.1],[88.8,30.3],[89.7,30.1],[90.0,28.9],[91.6,28.1],[92.5,27.9],[93.8,28.3],[95.0,28.0],[96.0,28.4],[97.1,28.3],[97.4,27.1],[98.3,25.6],[98.7,24.2],[99.2,23.1],[100.1,22.5],[101.1,22.0],[101.8,22.4],[102.5,22.8],[103.0,22.7],[104.1,22.8],[105.4,23.2],[106.6,22.9],[107.0,21.9],[108.0,21.6],[108.5,22.8],[108.7,23.5],[110.4,24.0],[111.8,24.6],[112.5,25.1],[114.0,25.3],[114.5,25.2],[115.7,25.8],[116.7,25.5],[117.6,24.5],[118.6,24.5],[119.5,25.4],[119.8,26.2],[120.5,26.9],[121.1,28.1],[121.5,29.2],[121.9,30.0],[121.6,31.2],[121.1,32.1],[120.5,33.0],[120.5,34.1],[119.5,35.0],[119.2,36.0],[120.4,37.8],[121.7,38.9],[122.4,40.5],[122.1,41.8],[121.1,42.3],[120.5,42.6],[119.0,42.4],[118.0,42.5],[117.0,42.5],[115.3,42.1],[114.5,41.7],[113.5,41.9],[112.4,41.7],[111.5,41.4],[110.7,41.9],[109.5,42.6],[108.2,43.2],[107.0,44.0],[105.1,44.4],[104.0,44.0],[102.1,43.3],[100.8,42.6],[99.5,42.6],[97.2,42.8],[95.8,43.3],[95.0,44.0],[93.5,44.0],[91.6,45.1],[90.9,45.2],[90.0,47.9],[88.6,48.4],[87.6,49.2],[86.7,49.0],[85.7,48.4],[84.9,47.0],[83.0,47.2],[82.3,45.6],[80.9,45.0],[79.9,44.9],[78.4,44.5],[76.9,45.5],[75.6,45.5],[74.2,43.9],[73.6,43.1],[73.6,39.4]];
+    var chinaGeo={type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Polygon',coordinates:[chinaCoords]}}]};
+    // World mask polygon with China hole (inverted)
+    var maskGeo={type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Polygon',
+      coordinates:[
+        [[-180,90],[180,90],[180,-90],[-180,-90],[-180,90]], // outer world ring
+        chinaCoords.slice().reverse() // China hole (reversed winding)
+      ]}}]};
+
+    map.addSource('china-src',{type:'geojson',data:chinaGeo});
+    map.addSource('mask-src',{type:'geojson',data:maskGeo});
+    // Dark outside China
+    map.addLayer({id:'mask',type:'fill',source:'mask-src',
+      paint:{'fill-color':'rgba(10,8,5,.62)','fill-opacity':1}});
+    // China border glow
+    map.addLayer({id:'china-glow',type:'line',source:'china-src',
+      paint:{'line-color':'rgba(196,98,58,.15)','line-width':10,'line-blur':14}});
+    // China border line — terracotta
+    map.addLayer({id:'china-line',type:'line',source:'china-src',
+      paint:{'line-color':'rgba(196,98,58,.55)','line-width':1.2}});
 
     // Routes
     map.addSource('routes',{type:'geojson',data:{type:'FeatureCollection',features:[

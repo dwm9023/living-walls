@@ -5,8 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Living Walls — 活壁遗产</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<script>
+// Alias so all existing mapboxgl calls work with maplibre
+window.addEventListener('load', function(){
+  if(typeof maplibregl !== 'undefined' && typeof mapboxgl === 'undefined'){
+    window.mapboxgl = maplibregl;
+  }
+  initMap();
+});
+</script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -521,14 +530,40 @@ var sites = [
   },
 ];
 
-// ── initMap called once Mapbox script loads ──
 function initMap(){
   if(typeof mapboxgl==='undefined'){showFallback();return;}
-  mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2ZW5tYW5nYXIiLCJhIjoiY21ta21yejc1MXRjaDJ3b2Z3c3RzNHVlNiJ9.BkKg-SEPU7chCs8uLWMmEQ';
+  // No token needed — free tiles
+  if(mapboxgl.accessToken !== undefined) mapboxgl.accessToken = '';
 
 map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/outdoors-v12',
+  style: {
+    version: 8,
+    sources: {
+      'satellite': {
+        type: 'raster',
+        tiles: [
+          'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+        ],
+        tileSize: 256,
+        attribution: '© Esri © USGS © NASA'
+      },
+      'terrain-rgb': {
+        type: 'raster-dem',
+        tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+        tileSize: 256,
+        encoding: 'terrarium'
+      }
+    },
+    layers: [{
+      id: 'satellite-layer',
+      type: 'raster',
+      source: 'satellite',
+      minzoom: 0,
+      maxzoom: 20
+    }],
+    glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf'
+  },
   center: [101.5, 27.2],
   zoom: 7.2,
   pitch: 58,
@@ -537,27 +572,14 @@ map = new mapboxgl.Map({
 });
 
 map.on('load', function(){
-  // Add terrain — real 3D elevation
+  // 3D terrain
   map.addSource('mapbox-dem', {
     type: 'raster-dem',
-    url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-    tileSize: 512,
-    maxzoom: 14
+    tiles: ['https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png'],
+    tileSize: 256,
+    encoding: 'terrarium'
   });
-  map.setTerrain({source:'mapbox-dem', exaggeration:1.6});
-
-  // Atmosphere / sky
-  map.addLayer({
-    id: 'sky',
-    type: 'sky',
-    paint: {
-      'sky-type': 'atmosphere',
-      'sky-atmosphere-sun': [0.0, 90.0],
-      'sky-atmosphere-sun-intensity': 15,
-      'sky-atmosphere-color': 'rgba(120,160,200,1)',
-      'sky-atmosphere-halo-color': 'rgba(180,210,230,.8)',
-    }
-  });
+  map.setTerrain({source:'mapbox-dem', exaggeration:1.8});
 
   // Route lines between sites
   map.addSource('routes', {

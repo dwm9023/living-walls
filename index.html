@@ -19,30 +19,34 @@ window.addEventListener('load', function(){
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --green:#1e2a1a;
-  --green2:#2d3d28;
-  --green3:#3a5032;
-  --lime:#b8e04a;
-  --lime2:#d0f060;
-  --cream:#f0e8c8;
-  --ink:#12140e;
-  --rust:#c4520a;
-  --gold:#d4920a;
+  --ink:#0e0c08;
+  --ink2:#1a1710;
+  --ink3:#252018;
+  --paper:#f2ead8;
+  --paper2:#e8dcc8;
+  --gold:#c8960a;
+  --gold2:#e4b020;
+  --gold3:#f0cc60;
+  --cinnabar:#a83218;
+  --cinnabar2:#c43e20;
+  --jade:#2a5a48;
+  --jade2:#3a7a62;
+  --mist:rgba(242,234,216,.06);
   --display:'Bebas Neue',sans-serif;
   --body:'DM Sans',sans-serif;
   --zh:'Noto Serif SC',serif;
 }
-html,body{width:100%;height:100%;overflow:hidden;background:#1a1e14;cursor:none}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--ink);cursor:none}
 
 /* ── CURSOR ── */
 #cur{position:fixed;z-index:9999;pointer-events:none;top:0;left:0}
-.cd{width:8px;height:8px;border-radius:50%;background:var(--lime);
+.cd{width:8px;height:8px;border-radius:50%;background:var(--gold);
   position:absolute;transform:translate(-50%,-50%);
-  box-shadow:0 0 10px rgba(184,224,74,.6)}
+  box-shadow:0 0 12px rgba(200,150,10,.5)}
 .cr{width:30px;height:30px;border-radius:50%;
-  border:1.5px solid rgba(184,224,74,.35);
+  border:1.5px solid rgba(200,150,10,.3);
   position:absolute;transform:translate(-50%,-50%);transition:all .3s}
-body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
+body.hov .cr{width:46px;height:46px;border-color:rgba(200,150,10,.7)}
 
 /* ── MAP ── */
 #map{position:fixed;inset:0;z-index:0}
@@ -62,7 +66,7 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
 #topbar{position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;justify-content:space-between;align-items:center;
   padding:.7rem 1.4rem;
-  background:linear-gradient(to bottom,rgba(18,22,14,.92),transparent);
+  background:linear-gradient(to bottom,rgba(10,9,6,.95),transparent);
   pointer-events:none}
 #topbar>*{pointer-events:auto}
 .logo{display:flex;flex-direction:column;gap:.1rem}
@@ -74,64 +78,64 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
 
 /* ── PILL BUTTONS ── */
 .pill-btn{display:flex;align-items:center;gap:.45rem;
-  background:rgba(22,30,18,.9);
-  border:1px solid rgba(184,224,74,.18);
-  color:rgba(240,232,200,.6);
+  background:rgba(14,12,8,.92);
+  border:1px solid rgba(200,150,10,.2);
+  color:rgba(242,234,216,.5);
   font-family:var(--body);font-size:.52rem;font-weight:500;
   letter-spacing:.16em;text-transform:uppercase;
   padding:.42rem 1rem;cursor:pointer;
   transition:all .25s;backdrop-filter:blur(8px)}
 .pill-btn:hover,.pill-btn.on{
-  background:rgba(184,224,74,.1);
-  border-color:rgba(184,224,74,.45);
-  color:var(--lime)}
+  background:rgba(200,150,10,.1);
+  border-color:rgba(200,150,10,.5);
+  color:var(--gold2)}
 .pill-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0}
 
 /* ── HERO TEXT (bottom left) ── */
 #hero-text{position:fixed;bottom:4rem;left:1.6rem;z-index:100;pointer-events:none;
   animation:fadeUp .9s ease .5s both}
 .ht-eyebrow{font-family:var(--body);font-size:.5rem;font-weight:400;letter-spacing:.35em;
-  text-transform:uppercase;color:rgba(184,224,74,.55);margin-bottom:.4rem}
+  text-transform:uppercase;color:rgba(200,150,10,.65);margin-bottom:.4rem}
 .ht-main{font-family:var(--display);
   font-size:clamp(3rem,7vw,6.5rem);
   color:var(--cream);line-height:.88;letter-spacing:.03em;text-transform:uppercase;
   text-shadow:0 2px 40px rgba(0,0,0,.6)}
-.ht-main em{color:var(--lime);font-style:normal}
+.ht-main em{color:var(--gold2);font-style:normal}
 .ht-zh{font-family:var(--zh);font-size:.9rem;font-weight:300;
-  color:rgba(240,232,200,.22);letter-spacing:.4em;margin-top:.5rem}
+  color:rgba(242,234,216,.18);letter-spacing:.4em;margin-top:.5rem}
 .ht-rule{display:flex;align-items:center;gap:.6rem;margin-top:.7rem}
-.hr-line{height:1px;width:32px;background:linear-gradient(to right,rgba(184,224,74,.4),transparent)}
+.hr-line{height:1px;width:32px;background:linear-gradient(to right,rgba(200,150,10,.35),transparent)}
 .ht-sub{font-family:var(--body);font-size:.5rem;font-weight:300;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(240,232,200,.28)}
+  text-transform:uppercase;color:rgba(242,234,216,.28)}
 
 /* ── ZOOM CONTROLS ── */
 #zoom-ctrl{position:fixed;right:1.4rem;bottom:9rem;z-index:100;
   display:flex;flex-direction:column;gap:1px}
 .zoom-btn{width:34px;height:34px;
-  background:rgba(22,30,18,.9);
-  border:1px solid rgba(184,224,74,.15);
-  color:rgba(240,232,200,.5);font-size:1.05rem;
+  background:rgba(14,12,8,.92);
+  border:1px solid rgba(200,150,10,.15);
+  color:rgba(242,234,216,.45);font-size:1.05rem;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .22s;backdrop-filter:blur(6px);
   font-family:var(--body);font-weight:300;line-height:1}
-.zoom-btn:hover{background:rgba(184,224,74,.1);color:var(--lime);border-color:rgba(184,224,74,.35)}
+.zoom-btn:hover{background:rgba(200,150,10,.1);color:var(--gold2);border-color:rgba(200,150,10,.4)}
 
 /* ── SITE CARD (bottom right) ── */
 #site-card{position:fixed;right:1.4rem;bottom:3.5rem;z-index:100;
   width:230px;
-  background:rgba(18,22,14,.94);
-  border:1px solid rgba(184,224,74,.12);
+  background:rgba(12,10,6,.96);
+  border:1px solid rgba(200,150,10,.12);
   backdrop-filter:blur(12px);
   animation:slideUp .7s ease .8s both;overflow:hidden}
 .sc-label-row{padding:.5rem .8rem;
-  border-bottom:1px solid rgba(184,224,74,.07);
+  border-bottom:1px solid rgba(200,150,10,.08);
   display:flex;justify-content:space-between;align-items:center}
 .sc-label{font-family:var(--body);font-size:.44rem;font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:rgba(240,232,200,.28)}
+  letter-spacing:.24em;text-transform:uppercase;color:rgba(242,234,216,.28)}
 .sc-explore{font-family:var(--body);font-size:.44rem;letter-spacing:.16em;
-  text-transform:uppercase;color:rgba(184,224,74,.5);
+  text-transform:uppercase;color:rgba(200,150,10,.55);
   cursor:pointer;display:flex;align-items:center;gap:.3rem;transition:color .2s}
-.sc-explore:hover{color:var(--lime2)}
+.sc-explore:hover{color:var(--gold3)}
 .sc-explore svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2}
 .sc-content{padding:.8rem;cursor:pointer}
 .sc-name{font-family:var(--display);font-size:2.4rem;letter-spacing:.04em;
@@ -142,7 +146,8 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   position:relative;overflow:hidden;
   background:var(--site-bg,rgba(184,224,74,.06));
   display:flex;align-items:center;justify-content:center}
-.sc-visual-icon{font-size:2.2rem;opacity:.15;position:relative;z-index:1}
+.sc-visual-icon{width:32px;height:32px;opacity:.2;position:relative;z-index:1;color:var(--gold)}
+.sc-visual-icon svg{width:100%;height:100%;stroke:currentColor}
 .sc-visual-bar{position:absolute;bottom:0;left:0;
   height:2px;background:linear-gradient(to right,var(--lime),transparent);
   width:var(--auth-pct,60%)}
@@ -150,55 +155,56 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   font-family:var(--body);font-size:.36rem;font-weight:500;
   letter-spacing:.12em;text-transform:uppercase;
   padding:.15rem .42rem;
-  background:rgba(184,224,74,.12);
-  border:1px solid rgba(184,224,74,.22);
-  color:var(--lime);z-index:2}
+  background:rgba(200,150,10,.1);
+  border:1px solid rgba(200,150,10,.25);
+  color:var(--gold2);z-index:2}
 .sc-auth-pct{position:absolute;bottom:.35rem;right:.4rem;
   font-family:var(--body);font-size:.42rem;font-weight:500;
-  color:rgba(184,224,74,.55);z-index:2}
+  color:rgba(200,150,10,.65);z-index:2}
 .sc-dots{display:flex;gap:1px;border-top:1px solid rgba(184,224,74,.06)}
 .sc-dot{flex:1;height:2.5px;background:rgba(255,255,255,.05);
   cursor:pointer;transition:background .25s}
-.sc-dot.on{background:var(--lime)}
+.sc-dot.on{background:var(--gold)}
 
-/* ── MAPBOX MARKER CUSTOM ── */
-.map-marker{width:44px;height:44px;cursor:pointer;position:relative}
-.mm-outer{width:44px;height:44px;border-radius:50%;
-  border:2px solid rgba(184,224,74,.45);
-  background:rgba(18,22,14,.75);
-  backdrop-filter:blur(6px);
+/* ── MARKER ── */
+.map-marker{width:48px;height:48px;cursor:pointer;position:relative}
+.mm-outer{width:48px;height:48px;
+  border:1px solid rgba(200,150,10,.4);
+  background:rgba(10,8,4,.82);
+  backdrop-filter:blur(8px);
   display:flex;align-items:center;justify-content:center;
-  transition:all .3s;position:relative}
-.mm-outer::before{content:'';position:absolute;inset:-7px;border-radius:50%;
-  border:1px dashed rgba(184,224,74,.18);
+  transition:all .3s;position:relative;
+  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)}
+.mm-outer::before{content:'';position:absolute;inset:-7px;
+  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border:1px dashed rgba(200,150,10,.15);
   animation:pulse 2.8s ease infinite}
-.mm-outer::after{content:'';position:absolute;inset:-13px;border-radius:50%;
-  border:1px solid rgba(184,224,74,.07);
-  animation:pulse 2.8s ease .6s infinite}
 .map-marker:hover .mm-outer,
 .map-marker.active .mm-outer{
-  background:rgba(184,224,74,.18);
-  border-color:var(--lime);
-  box-shadow:0 0 24px rgba(184,224,74,.35),0 0 48px rgba(184,224,74,.12)}
-.mm-icon{font-size:.95rem;position:relative;z-index:1}
-.mm-label{position:absolute;top:calc(100% + 7px);left:50%;
+  background:rgba(200,150,10,.15);
+  border-color:var(--gold2);
+  box-shadow:0 0 20px rgba(200,150,10,.3),0 0 40px rgba(200,150,10,.1)}
+.mm-svg{width:22px;height:22px;color:rgba(200,150,10,.8);position:relative;z-index:1;flex-shrink:0}
+.mm-svg svg{width:100%;height:100%;stroke:currentColor}
+.map-marker:hover .mm-svg,.map-marker.active .mm-svg{color:var(--gold2)}
+.mm-label{position:absolute;top:calc(100% + 9px);left:50%;
   transform:translateX(-50%);
-  font-family:var(--body);font-size:.46rem;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--cream);
-  background:rgba(18,22,14,.88);
-  padding:.2rem .55rem;white-space:nowrap;
-  border:1px solid rgba(184,224,74,.14);
+  font-family:var(--body);font-size:.44rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--paper);
+  background:rgba(10,8,4,.92);
+  padding:.22rem .6rem;white-space:nowrap;
+  border:1px solid rgba(200,150,10,.15);
   opacity:0;transition:opacity .22s;pointer-events:none}
 .map-marker:hover .mm-label{opacity:1}
-@keyframes pulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.18;transform:scale(1.1)}}
+@keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.15;transform:scale(1.12)}}
 
 /* ── EXPLORE PANEL ── */
 #explore-panel{
   position:fixed;top:0;right:0;bottom:0;width:360px;
   z-index:200;
-  background:rgba(14,18,12,.97);
-  border-left:1px solid rgba(184,224,74,.1);
+  background:rgba(10,8,5,.98);
+  border-left:1px solid rgba(200,150,10,.1);
   backdrop-filter:blur(20px);
   transform:translateX(100%);
   transition:transform .48s cubic-bezier(.4,0,.2,1);
@@ -206,35 +212,37 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
 #explore-panel.open{transform:translateX(0)}
 /* scrollbar */
 #explore-panel::-webkit-scrollbar{width:2px}
-#explore-panel::-webkit-scrollbar-thumb{background:rgba(184,224,74,.2)}
+#explore-panel::-webkit-scrollbar-thumb{background:rgba(200,150,10,.2)}
 
 .ep-close{
   position:sticky;top:0;right:0;
   float:right;clear:both;
   margin:.9rem .9rem 0 0;
   width:30px;height:30px;
-  background:rgba(184,224,74,.07);
-  border:1px solid rgba(184,224,74,.18);
-  color:rgba(184,224,74,.7);font-size:.85rem;
+  background:rgba(200,150,10,.06);
+  border:1px solid rgba(200,150,10,.2);
+  color:rgba(200,150,10,.6);font-size:.85rem;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   transition:all .22s;z-index:5;flex-shrink:0}
-.ep-close:hover{background:rgba(184,224,74,.16);color:var(--lime)}
+.ep-close:hover{background:rgba(200,150,10,.14);color:var(--gold2)}
 
 .ep-hero{height:185px;position:relative;overflow:hidden;
   display:flex;align-items:flex-end;padding:1.2rem 1.3rem;
   flex-shrink:0}
 .ep-hero-bg{position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;font-size:5.5rem;opacity:.1}
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(200,150,10,.15)}
+.ep-hero-bg svg{width:120px;height:120px;stroke:currentColor}
 .ep-hero-color{position:absolute;inset:0;opacity:.18}
 .ep-hero-grad{position:absolute;inset:0;
   background:linear-gradient(to top,rgba(14,18,12,.98) 0%,rgba(14,18,12,.3) 60%,transparent 100%)}
 .ep-region{font-family:var(--body);font-size:.46rem;font-weight:500;
   letter-spacing:.26em;text-transform:uppercase;
-  color:var(--lime);opacity:.7;margin-bottom:.3rem;position:relative;z-index:2}
+  color:var(--gold);opacity:.75;margin-bottom:.3rem;position:relative;z-index:2}
 .ep-name{font-family:var(--display);font-size:3rem;letter-spacing:.04em;
   color:var(--cream);line-height:.88;position:relative;z-index:2}
 .ep-zh{font-family:var(--zh);font-size:.82rem;font-weight:300;
-  color:rgba(240,232,200,.28);letter-spacing:.38em;
+  color:rgba(242,234,216,.28);letter-spacing:.38em;
   margin-top:.22rem;position:relative;z-index:2}
 
 .ep-body{padding:1.2rem 1.3rem}
@@ -245,7 +253,7 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   letter-spacing:.13em;text-transform:uppercase;
   padding:.2rem .55rem;
   border:1px solid rgba(184,224,74,.18);
-  color:rgba(184,224,74,.55);
+  color:rgba(200,150,10,.65);
   background:rgba(184,224,74,.04)}
 
 /* Section label */
@@ -265,18 +273,18 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   font-weight:500;color:var(--lime)}
 .auth-track{height:2px;background:rgba(255,255,255,.05);overflow:hidden}
 .auth-fill{height:100%;
-  background:linear-gradient(to right,var(--lime),var(--lime2));
+  background:linear-gradient(to right,var(--gold),var(--gold3));
   width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
 
 /* Findings */
 .ep-finding{padding:.75rem .8rem;
   background:rgba(184,224,74,.025);
-  border:1px solid rgba(184,224,74,.07);
-  border-left:2px solid rgba(184,224,74,.2);
+  border:1px solid rgba(200,150,10,.06);
+  border-left:2px solid rgba(200,150,10,.25);
   margin-bottom:.45rem}
 .ef-num{font-family:var(--body);font-size:.38rem;font-weight:500;
   letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(184,224,74,.38);margin-bottom:.28rem}
+  color:rgba(200,150,10,.45);margin-bottom:.28rem}
 .ef-body{font-family:var(--body);font-size:.68rem;font-weight:300;
   color:rgba(240,232,200,.45);line-height:1.75}
 .ef-body em{color:rgba(240,232,200,.78);font-style:normal;font-weight:400}
@@ -286,7 +294,7 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   padding:.48rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .data-row:last-child{border-bottom:none}
 .dr-label{font-family:var(--body);font-size:.48rem;
-  color:rgba(240,232,200,.28)}
+  color:rgba(242,234,216,.28)}
 .dr-val{font-family:var(--body);font-size:.48rem;font-weight:400;
   color:rgba(240,232,200,.6);text-align:right;max-width:55%}
 
@@ -296,19 +304,47 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
   letter-spacing:.16em;text-transform:uppercase;
   padding:.58rem .8rem;cursor:pointer;transition:all .25s;
   text-align:center;border:none;line-height:1}
-.ep-btn-p{background:var(--lime);color:var(--ink)}
-.ep-btn-p:hover{background:var(--lime2);transform:translateY(-1px)}
-.ep-btn-g{background:none;border:1px solid rgba(184,224,74,.2);color:rgba(184,224,74,.6)}
-.ep-btn-g:hover{border-color:rgba(184,224,74,.45);color:var(--lime)}
+.ep-btn-p{background:var(--gold);color:var(--ink)}
+.ep-btn-p:hover{background:var(--gold2);transform:translateY(-1px)}
+.ep-btn-g{background:none;border:1px solid rgba(200,150,10,.2);color:rgba(200,150,10,.55)}
+.ep-btn-g:hover{border-color:rgba(200,150,10,.5);color:var(--gold2)}
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
-/* Mapbox overrides */
-.mapboxgl-ctrl-logo,.mapboxgl-ctrl-attrib{opacity:.3!important;transform:scale(.7)!important}
-.mapboxgl-canvas{cursor:grab!important}
-.mapboxgl-canvas:active{cursor:grabbing!important}
+/* ── ORNAMENTAL CORNER MOTIFS ── */
+.corner-motif{position:fixed;z-index:50;pointer-events:none;opacity:.18}
+.corner-motif svg{display:block}
+#cm-tl{top:52px;left:0}
+#cm-br{bottom:0;right:0;transform:rotate(180deg)}
+
+/* ── VERTICAL RULE ACCENTS ── */
+.v-rule{position:fixed;top:52px;bottom:0;width:1px;z-index:50;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(200,150,10,.15),transparent 40%,transparent 60%,rgba(200,150,10,.08))}
+#vr-l{left:0}
+#vr-r{right:360px;opacity:0;transition:opacity .5s}
+body.panel-open #vr-r{opacity:1}
+
+/* ── HORIZONTAL RULE UNDER TOPBAR ── */
+.h-rule{position:fixed;top:52px;left:0;right:0;height:1px;z-index:99;
+  background:linear-gradient(to right,transparent,rgba(200,150,10,.2) 20%,rgba(200,150,10,.2) 80%,transparent)}
+
+/* ── COORDINATES DISPLAY ── */
+#coords{position:fixed;bottom:1.2rem;left:1.6rem;z-index:100;
+  font-family:'Courier New',monospace;font-size:.42rem;letter-spacing:.12em;
+  color:rgba(200,150,10,.3);pointer-events:none}
+
+/* ── SCALE INDICATOR ── */
+#scale-ind{position:fixed;bottom:3.8rem;right:1.4rem;z-index:100;
+  display:flex;flex-direction:column;align-items:flex-end;gap:.25rem;pointer-events:none}
+.si-label{font-family:'Courier New',monospace;font-size:.38rem;letter-spacing:.14em;
+  color:rgba(200,150,10,.3)}
+.si-bar{width:60px;height:1px;background:rgba(200,150,10,.25);position:relative}
+.si-bar::before,.si-bar::after{content:'';position:absolute;top:-3px;
+  width:1px;height:7px;background:rgba(200,150,10,.35)}
+.si-bar::before{left:0}
+.si-bar::after{right:0}
 </style>
 </head>
 <body>
@@ -320,11 +356,48 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
 <!-- REAL SATELLITE MAP -->
 <div id="map"></div>
 
+<!-- HORIZONTAL RULE -->
+<div class="h-rule"></div>
+<div class="v-rule" id="vr-l"></div>
+<div class="v-rule" id="vr-r"></div>
+
+<!-- CORNER MOTIFS — cloud/ruyi SVG pattern -->
+<div class="corner-motif" id="cm-tl">
+  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="rgba(200,150,10,1)" stroke-width=".8">
+    <path d="M0 60 Q20 40 40 60 Q60 80 80 60 Q100 40 120 60"/>
+    <path d="M0 40 Q20 20 40 40 Q60 60 80 40"/>
+    <path d="M0 80 Q20 60 40 80 Q60 100 80 80 Q100 60 120 80"/>
+    <path d="M60 0 Q40 20 60 40 Q80 60 60 80 Q40 100 60 120"/>
+    <path d="M40 0 Q20 20 40 40 Q60 60 40 80"/>
+    <circle cx="0" cy="0" r="2" fill="rgba(200,150,10,1)"/>
+    <circle cx="60" cy="0" r="1" fill="rgba(200,150,10,1)"/>
+    <circle cx="0" cy="60" r="1" fill="rgba(200,150,10,1)"/>
+  </svg>
+</div>
+<div class="corner-motif" id="cm-br">
+  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" stroke="rgba(200,150,10,1)" stroke-width=".8">
+    <path d="M0 60 Q20 40 40 60 Q60 80 80 60 Q100 40 120 60"/>
+    <path d="M0 40 Q20 20 40 40 Q60 60 80 40"/>
+    <path d="M0 80 Q20 60 40 80 Q60 100 80 80 Q100 60 120 80"/>
+    <path d="M60 0 Q40 20 60 40 Q80 60 60 80 Q40 100 60 120"/>
+    <circle cx="120" cy="120" r="2" fill="rgba(200,150,10,1)"/>
+  </svg>
+</div>
+
+<!-- COORDINATES -->
+<div id="coords">27°49'N · 99°42'E · YUNNAN</div>
+
+<!-- SCALE INDICATOR -->
+<div id="scale-ind">
+  <div class="si-label">~200 KM</div>
+  <div class="si-bar"></div>
+</div>
+
 <!-- TOP BAR -->
 <nav id="topbar">
   <div class="logo">
     <div class="logo-main">LIVING WALLS</div>
-    <div class="logo-sub">活壁遗产 · Heritage Research · China 2024–25</div>
+    <div class="logo-sub">活壁遗产 · Spatial Fictions · China 2024–25</div>
   </div>
   <div class="topbar-right">
     <button class="pill-btn on" id="routes-btn" onclick="toggleRoutes(this)">
@@ -340,12 +413,12 @@ body.hov .cr{width:46px;height:46px;border-color:rgba(184,224,74,.65)}
 
 <!-- HERO TEXT -->
 <div id="hero-text">
-  <div class="ht-eyebrow">Four Sites · Authenticity Gap Analysis</div>
+  <div class="ht-eyebrow">四址 · 真实性分析 · Four Sites · Authenticity Gap</div>
   <div class="ht-main">SPATIAL<br>FICTIONS<em>.</em></div>
   <div class="ht-zh">建筑真实性 · 遗产酒店研究</div>
   <div class="ht-rule">
     <div class="hr-line"></div>
-    <div class="ht-sub">Click a site to explore</div>
+    <div class="ht-sub">Select a site to begin</div>
   </div>
 </div>
 
@@ -428,7 +501,7 @@ var sites = [
     id:'shangrila',
     name:'SHANGRILA', zh:'香格里拉', culture:'Khampa Tibetan',
     region:'Shangri-La · Yunnan', badge:'Tibetan',
-    icon:'⛩', color:'#d4920a',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M12 2 L12 4 M4 12 L20 12 M6 7 Q12 4 18 7 L18 14 Q12 18 6 14 Z M9 14 L9 19 M15 14 L15 19 M9 19 L15 19"/></svg>`, color:'#c8960a',
     lng:99.7043, lat:27.8297, zoom:14, pitch:62, bearing:-28,
     authPct:35,
     tags:['Khampa Tibetan','Heritage Hotel','Authenticity Gap','Timber Craft','Buddhism','Yunnan'],
@@ -454,7 +527,7 @@ var sites = [
     id:'lijiang',
     name:'LIJIANG', zh:'丽江', culture:'Naxi Vernacular',
     region:'Lijiang · Yunnan', badge:'Naxi',
-    icon:'🌊', color:'#2a7a9a',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M3 17 Q6 13 9 17 Q12 21 15 17 Q18 13 21 17"/><path d="M3 12 Q6 8 9 12 Q12 16 15 12 Q18 8 21 12"/><path d="M3 7 Q6 3 9 7 Q12 11 15 7 Q18 3 21 7"/></svg>`, color:'#2a7a9a',
     lng:100.2341, lat:26.8721, zoom:14, pitch:58, bearing:15,
     authPct:55,
     tags:['Naxi Culture','Dongba Script','Water System','UNESCO','Old Town','Lijiang'],
@@ -480,7 +553,7 @@ var sites = [
     id:'dali',
     name:'DALI', zh:'大理', culture:'Bai Vernacular',
     region:'Dali · Yunnan', badge:'Bai',
-    icon:'🪨', color:'#4a8a78',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><rect x="3" y="8" width="18" height="10" rx="0"/><path d="M3 8 L12 3 L21 8"/><path d="M7 8 L7 18 M12 8 L12 18 M17 8 L17 18"/><path d="M3 13 L21 13"/></svg>`, color:'#4a8a78',
     lng:100.1672, lat:25.6065, zoom:14, pitch:60, bearing:5,
     authPct:48,
     tags:['Bai Culture','Cangshan Marble','San Fang Yi Zhao Bi','Courtyard','Erhai Lake'],
@@ -506,7 +579,7 @@ var sites = [
     id:'xian',
     name:"XI'AN", zh:'西安', culture:'Tang Imperial',
     region:"Xi'an · Shaanxi", badge:'Tang',
-    icon:'🏛', color:'#c45a18',
+    icon:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"><path d="M2 10 Q12 5 22 10 L20 12 L4 12 Z"/><rect x="4" y="12" width="16" height="8"/><rect x="9" y="15" width="6" height="5"/><path d="M2 20 L22 20"/><line x1="12" y1="2" x2="12" y2="6"/></svg>`, color:'#c45a18',
     lng:108.9398, lat:34.2658, zoom:13, pitch:55, bearing:-12,
     authPct:18,
     tags:["Tang Dynasty","Imperial Heritage","Da Mingong","Total Fabrication","Qujiang","Shaanxi"],
@@ -624,7 +697,7 @@ map.on('load', function(){
     el.className = 'map-marker';
     el.id = 'marker-'+s.id;
     el.innerHTML =
-      '<div class="mm-outer"><div class="mm-icon">'+s.icon+'</div></div>'
+      '<div class="mm-outer"><div class="mm-svg">'+s.icon+'</div></div>'
       +'<div class="mm-label">'+s.name+'</div>';
     el.addEventListener('click', function(){ openSite(s.id); });
     el.addEventListener('mouseenter',function(){document.body.classList.add('hov');});
@@ -633,6 +706,20 @@ map.on('load', function(){
     new mapboxgl.Marker({element:el, anchor:'center'})
       .setLngLat([s.lng, s.lat])
       .addTo(map);
+  });
+
+  // Constrain map to China
+  map.setMaxBounds([[73, 15], [136, 54]]);
+  map.setMinZoom(4);
+
+  // Live coordinates display
+  map.on('mousemove', function(e){
+    var lat = e.lngLat.lat.toFixed(2);
+    var lng = e.lngLat.lng.toFixed(2);
+    var latDir = lat >= 0 ? 'N' : 'S';
+    var lngDir = lng >= 0 ? 'E' : 'W';
+    document.getElementById('coords').textContent =
+      Math.abs(lat)+'° '+latDir+' · '+Math.abs(lng)+'° '+lngDir+' · YUNNAN–SHAANXI';
   });
 
   // Build card dots
@@ -677,7 +764,7 @@ function setCard(i){
   var s = sites[i];
   document.getElementById('sc-name').textContent = s.name;
   document.getElementById('sc-culture').textContent = s.culture+' · '+s.region.split('·')[1].trim();
-  document.getElementById('sc-icon').textContent = s.icon;
+  document.getElementById('sc-icon').innerHTML = s.icon;
   document.getElementById('sc-badge').textContent = s.badge;
   document.getElementById('sc-auth-pct').textContent = s.authPct+'% authentic';
   var sv = document.getElementById('sc-visual');
@@ -720,7 +807,7 @@ function openSite(id){
   });
 
   // Hero
-  document.getElementById('ep-bg-icon').textContent = s.icon;
+  document.getElementById('ep-bg-icon').innerHTML = s.icon;
   document.getElementById('ep-hero-color').style.background = s.color;
   document.getElementById('ep-region').textContent = s.region;
   document.getElementById('ep-name').textContent = s.name;
@@ -761,6 +848,7 @@ function openSite(id){
 
   // Open
   document.getElementById('explore-panel').classList.add('open');
+  document.body.classList.add('panel-open');
 
   // Animate bars after transition
   setTimeout(function(){
@@ -772,6 +860,7 @@ function openSite(id){
 
 function closePanel(){
   document.getElementById('explore-panel').classList.remove('open');
+  document.body.classList.remove('panel-open');
   document.querySelectorAll('.map-marker').forEach(function(m){m.classList.remove('active');});
   if(map) flyToYunnan();
 }

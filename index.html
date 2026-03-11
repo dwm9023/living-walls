@@ -44,11 +44,11 @@ body.hov .cr{width:52px;height:52px;opacity:.65}
 
 /* VIGNETTE + INK */
 .vig{position:fixed;inset:0;z-index:3;pointer-events:none;
-  background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 30%,rgba(18,14,8,.6) 100%)}
+  background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,rgba(18,14,8,.45) 100%)}
 .ink-top{position:fixed;top:0;left:0;right:0;height:180px;z-index:4;pointer-events:none;
-  background:linear-gradient(to bottom,rgba(18,14,8,.92) 0%,rgba(18,14,8,.35) 55%,transparent 100%)}
+  background:linear-gradient(to bottom,rgba(18,14,8,.88) 0%,rgba(18,14,8,.2) 60%,transparent 100%)}
 .ink-bot{position:fixed;bottom:0;left:0;right:0;height:130px;z-index:4;pointer-events:none;
-  background:linear-gradient(to top,rgba(18,14,8,.88) 0%,transparent 100%)}
+  background:linear-gradient(to top,rgba(18,14,8,.75) 0%,transparent 100%)}
 
 /* NAV */
 #nav{position:fixed;top:0;left:0;right:0;z-index:100;
@@ -480,10 +480,10 @@ function initMap(){
     // China border from GeoJSON
     map.addSource('countries',{type:'geojson',
       data:'https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson'});
-    // Dark mask outside China
+    // Dark mask outside China — lighter so satellite shows through
     map.addLayer({id:'mask',type:'fill',source:'countries',
       filter:['!=',['get','ADMIN'],'China'],
-      paint:{'fill-color':'rgba(10,8,5,.78)','fill-opacity':1}});
+      paint:{'fill-color':'rgba(10,8,5,.55)','fill-opacity':1}});
     // China border line glow
     map.addLayer({id:'china-glow',type:'line',source:'countries',
       filter:['==',['get','ADMIN'],'China'],
